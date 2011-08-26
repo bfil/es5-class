@@ -57,7 +57,7 @@ __Extending a prototype__
     Bird.include(
         {
             fly: function() {
-                if(canFly) console.log(this.name + " flies!");
+                if(this.canFly) console.log(this.name + " flies!");
             },
         }
     );
