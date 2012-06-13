@@ -5,7 +5,7 @@ A Class object that enables native prototypal inheritance
 
 * Inheritance made easy
 * Uses Object.create ES5 method to enable native prototypal inheritance
-* Works with node.js and in the browsers that supports ES5 Object and Properties.
+* Works with Node.js and in the browsers that supports ES5 Object and Properties.
 * Instances and classes gets useful methods and properties for reflections and navigation
 * Functions to implement other class methods and include other instance/prototype methods
 * Takes advantage of ES5 non-writable properties to disalbe the possibility of messing up the classes
@@ -69,7 +69,7 @@ __Extending a class__
         {
             run: function() {
                 for(var i=1; i<=10; i++)
-                    console.log(this.name + " runned for " + i + " miles!");
+                    console.log(this.name + " run for " + i + " miles!");
             },
         }
     );

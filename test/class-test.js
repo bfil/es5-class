@@ -118,21 +118,8 @@ module.exports = testCase({
 	},
 	
 	testInstanceOf: function(test) {
-		test.expect(2);
+		test.expect(1);
 		test.ok(animal.instanceOf);
-		
-		/* Strict Mode is still not supported
-		 * Overriding a not writable function would throw an error in Strict Mode
-		 * For now we're just checking that the function isn't changed
-		 * 
-		 * 'use strict';
-		 * test.throws(function() {
-		 * 	Class.prototype.instanceOf = function() {};
-		 * });
-		 */
-		var tempFunc = Class.prototype.instanceOf;
-		Class.prototype.instanceOf = function() {};
-		test.strictEqual(Class.prototype.instanceOf, tempFunc);
 		
 		test.done();
 	},
@@ -192,37 +179,40 @@ module.exports = testCase({
 	},
 	
 	testProtectedMethods: function(test) {
-		test.expect(4);
+		test.expect(3);
 		
+		/* Strict Mode is still not supported in Node.js
+		
+		'use strict';
+		 
 		test.throws(function() {
-			bird.getClass().className = 'try to modify className';
+			bird.getClass().className = 'trying to modify className';
 		});
 		
 		test.throws(function() {
-			Animal.extend(
-				'Dog2',
-				{},
-				{ className: 'try to override className'}
-			);
+			Bird.prototype.getClass = function() {};
 		});
 		
-		/* Strict Mode is still not supported
-		 * Overriding a not writable function would throw an error in Strict Mode
-		 * For now we're just checking that the function isn't changed
-		 * 
-		 * 'use strict';
-		 * test.throws(function() {
-		 * 	Bird.prototype.getClass = function() {};
-		 * });
-		 */
+		test.throws(function() {
+			Bird.prototype.getClass = function() {};
+		});
 		
-		var tempFunc = Bird.prototype.getClass;
+		Overriding a non-writable value would throw an error in Strict Mode
+		For now it fails silently, so we're just checking that the value can't be changed
+		
+		*/
+		
+		var temp = bird.getClass().className;
+		bird.getClass().className = 'trying to modify className';
+		test.strictEqual(bird.getClass().className, temp);
+		
+		temp = Bird.prototype.getClass;
 		Bird.prototype.getClass = function() {};
-		test.strictEqual(Bird.prototype.getClass, tempFunc);
+		test.strictEqual(Bird.prototype.getClass, temp);
 		
-		tempFunc = Class.prototype.instanceOf;
+		temp = Class.prototype.instanceOf;
 		Class.prototype.instanceOf = function() {};
-		test.strictEqual(Class.prototype.instanceOf, tempFunc);
+		test.strictEqual(Class.prototype.instanceOf, temp);
 		
 		test.done();
 	},
