@@ -194,7 +194,7 @@ module.exports = testCase({
 		});
 		
 		test.throws(function() {
-			Bird.prototype.getClass = function() {};
+			Class.prototype.instanceOf = function() {};
 		});
 		
 		Overriding a non-writable value would throw an error in Strict Mode
