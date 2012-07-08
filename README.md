@@ -1,5 +1,5 @@
-BF-Class
-========
+ES5-Class
+=========
 
 A Class object that enables native prototypal inheritance
 
@@ -44,7 +44,7 @@ __Class inheritance__
         'Bird ',
         {
             init: function(name) {
-                this._super('init', arguments); // calls parent class constructor
+                this._super(name); // calls parent class constructor
             },
             canFly: true
         },
@@ -110,7 +110,7 @@ The tests can be run using [nodeunit](https://github.com/caolan/nodeunit)
 Feeback
 -------
 
-If you experience any problem or found any bug I would be glad to receive a message to verify and address the issue
+Please use the issues section of github to report any bug you may find
 
 
 License

@@ -1,14 +1,6 @@
 var Class = {
 	prototype: {
-		init: function() {
-		},
-		_super: function(methodName, args) {
-			if (typeof methodName !== "string") {
-	            args = methodName;
-	            methodName = "init";
-	        }			
-			return this.parent[methodName].apply(this, args);
-		} 
+		init: function() {}
 	},
 	extend: function(className, include, implement) {
 		var object = Object.create(this);
@@ -50,8 +42,22 @@ var Class = {
 		return instance;
 	},
 	include: function(obj) {
-		for(var key in obj)
-			this.prototype[key] = obj[key];
+	    function functionWrapper(key, obj) {
+            return function () {
+                var originalSuper = this._super;
+                this._super = this.parent[key];
+                var ret = obj[key].apply(this, arguments);
+                this._super = originalSuper;
+                return ret;
+            }
+        }
+        
+		for(var key in obj) {
+		    if(typeof obj[key] === "function")
+		        this.prototype[key] = functionWrapper(key, obj);
+		    else
+                this.prototype[key] = obj[key];
+		}
 		
 		return this;
 	},
@@ -84,7 +90,7 @@ Object.defineProperty(Class.prototype, "instanceOf", {
 	}
 });
 
-(function () {
+(function () { // For Node.js & Browser compatibility
     var root = this; 
     var _ = new Object();
     var isNode = false;

@@ -33,7 +33,7 @@ module.exports = testCase({
 			'Bird',
 			{
 				init: function(name) {
-					this._super('init', arguments);
+					this._super(name);
 					this.canFly = true;
 				}
 			},
